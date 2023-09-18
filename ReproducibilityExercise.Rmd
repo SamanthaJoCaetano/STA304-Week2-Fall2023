@@ -1,0 +1,42 @@
+---
+title: "Reproducibility Example"
+date: "Sept 19, 2023"
+author: "Samantha-Jo Caetano"
+output:
+  pdf_document: default
+---
+
+# Reproducibility
+
+## Reproducing the Study
+
+We are trying to reproduce the test in the study which compares the life expectancy of diabetic with non-diabetic patients. 
+
+Here is the information given:
+
++---------------+------------------+-----------+
+|               | Mean             |           |
+| Group         | Life Expectancy  |  n        |
++===============+==================+===========+
+|Non-diabetic   | 74.80            |  671      |
++---------------+------------------+-----------+
+| Diabetic      | 74.64            |  44       |
++---------------+------------------+-----------+
+
+## Exercise (4 minutes)
+
+Now, let's try to reproduce this individually and compare answers.
+
+1. Take 2 minutes to think about how to best simulate the data provided on two groups. Note: you should use the means and sample sizes from the table above.
+2. Take 1 minute to change lines 35 and 37 with your personal simulation.
+3. We will compare our p-values on PollEverywhere ([pollev.com/sta](pollev.com/sta)) and see how similar our p-values are.
+
+```{r}
+LE_nondiabetic <- sample(c(73.8,75.8), replace = TRUE, size= 671) 
+
+LE_diabetic <- rnorm(44, 74.64, 3)
+  
+t.test(LE_nondiabetic, LE_diabetic)
+```
+
+

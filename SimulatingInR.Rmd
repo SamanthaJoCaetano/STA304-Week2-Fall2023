@@ -1,0 +1,119 @@
+---
+title: "Simulation Example"
+date: "Sept 19, 2023"
+author: "Samantha-Jo Caetano"
+output:
+  pdf_document: default
+---
+
+# Simulation
+
+## Sample Function
+
+First let's get started with the `sample` function.
+
+```{r}
+library(tidyverse)
+
+help(sample) # or ?sample
+
+colour <- c("Red", "Blue", "Green", "Yellow", "Purple")
+
+sample(x=colour, size=3)
+
+```
+
+Let's try using the `set.seed()` function. 
+
+```{r}
+sample(x=colour, size=3)
+sample(x=colour, size=3)
+sample(x=colour, size=3)
+sample(x=colour, size=3)
+
+set.seed(4)
+sample(x=colour, size=3)
+
+set.seed(4)
+sample(x=colour, size=3)
+
+set.seed(4)
+sample(x=colour, size=3)
+```
+
+Now, let's take a sample with replacement, of size 10, and let's say we know the population have 60% red and 10% of each other colour.
+
+```{r}
+set.seed(4)
+sample(x=colour, size=10, replace=TRUE, prob=c(0.6, 0.1, 0.1, 0.1, 0.1))
+
+set.seed(4)
+sample(x=colour, size=10, replace=TRUE, prob=c(12, 2, 2 ,2, 2))
+
+```
+
+## Simulating from distributions
+
+Similar to `qnorm()` and `pnorm()` one can use `rnorm()` (or `r<well_known_distribution_name>()`) to simulate from a well known distribution.
+
+Exercise: Assume we know waiting times for a bus are usually distributed to be uniform of -1 to +4 minutes (i.e., one minute early to 4 minutes late) and you wait for the bus 10 times in a month. Simulate your ten waiting times.
+
+```{r}
+waiting_times <- runif(n=10, min=-1, max=4)
+
+waiting_times
+```
+
+
+## Creating a Tibble
+
+Let's build a dataset/tibble that is about my experiences waiting for the bus. It will include how early/late the bus was (waiting_time), the colour of my shirt the day I was waiting  and the number of people also waiting at the bus stop.
+
+```{r}
+set.seed(2023)
+
+waiting_times <- runif(n=10, min=-1, max=4)
+
+shirt_colour <- sample(x=colour, size=10, replace=TRUE, prob=c(0.6, 0.1, 0.1, 0.1, 0.1))
+
+num_peeps_bus <- rpois(n=10, lambda = 3)
+
+my_bus_data <- tibble(waiting_times, shirt_colour, num_peeps_bus)
+
+glimpse(my_bus_data)
+```
+
+
+Let's just take a look at some of the data:
+
+```{r}
+my_bus_data %>% ggplot(aes(x=num_peeps_bus)) + geom_histogram()
+
+my_bus_data %>% ggplot(aes(x=waiting_times)) + geom_histogram()
+```
+
+Note: There is some code in the Week 1 Module to help you in formatting Tables and Plots in your pdfs.
+
+
+## Correlating Variables in a Tibble
+
+What if instead you know that waiting_times and num_peeps_bus is correlated?
+
+```{r}
+waiting_times <- runif(n=10, min=-1, max=4)
+
+#hist(waiting_times)
+
+shirt_colour <- sample(x=colour, size=10, replace=TRUE, prob=c(0.6, 0.1, 0.1, 0.1, 0.1))
+
+num_peeps_bus <- round(waiting_times + rnorm(n=10, 1, 1))
+
+#hist(num_peeps_bus)
+
+my_bus_data <- tibble(waiting_times, shirt_colour, num_peeps_bus)
+
+```
+
+
+
+
